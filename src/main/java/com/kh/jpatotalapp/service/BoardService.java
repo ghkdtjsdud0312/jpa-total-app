@@ -16,9 +16,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-
-@Service
-@RequiredArgsConstructor
+// 서비스 레이어, 내부에서 자바 로직을 처리함
+ // controller에서 객체를 받아서 repository를 실행 후 결과 값을 전달(frontEnd -> controller -> service -> repository -> service -> controller)
+@Service // 스프링에게 해당 클래스가 Service Component이라고 알려 주는 것 / 작성한 클래스에 @Service 어노테이션을 달아주면 해당 클래스를 루트 컨테이너에 Bean 객체로 생성해줌
+@RequiredArgsConstructor // 특정 변수만을 활용하는 생성자를 자동완성 시켜주는 어노테이션, 해당 변수를 final로 선언해도 의존성을 주입받을 수 있음
 public class BoardService {
     private final BoardRespository boardRespository;
     private final MemberRepository memberRepository;
@@ -29,7 +30,7 @@ public class BoardService {
         try{
             Board board = new Board();
             Member member = memberRepository.findByEmail(boardDto.getEmail()).orElseThrow(
-                    () -> new RuntimeException("해당 해원이 존재하지 않습니다.")
+                    () -> new RuntimeException("해당 회원이 존재하지 않습니다.")
                 );
             Category category = categoryRepository.findById(boardDto.getCategoryId()).orElseThrow(
                     () -> new RuntimeException("해당 카테고리가 존재하지 않습니다.")
@@ -51,7 +52,7 @@ public class BoardService {
        List<Board> boards = boardRespository.findAll();
        List<BoardDto> boardDtos = new ArrayList<>();
        for(Board board : boards) {
-           boardDtos.add(convertEntityToDto(board));
+           boardDtos.add(convertEntityToDto(board)); // convertEntityToDto : Builder 패턴으로 Entity를 Dto로 변환해주는 Method
        }
        return boardDtos;
     }

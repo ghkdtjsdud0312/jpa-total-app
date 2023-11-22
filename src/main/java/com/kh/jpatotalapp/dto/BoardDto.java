@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class BoardDto {
+public class BoardDto { // 자바용 데이터 객체
     private Long BoardId;
     private String email;
     private Long categoryId;

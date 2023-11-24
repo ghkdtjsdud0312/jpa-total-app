@@ -10,7 +10,7 @@ public class ChatMessageDto {
         ENTER, TALK, CLOSE
     }
     private MessageType type;
-    private String roomId;
-    private String sender;
-    private String message;
+    private String roomId; // 방 이름
+    private String sender; // 보내는 사람
+    private String message; // 메세지
 }

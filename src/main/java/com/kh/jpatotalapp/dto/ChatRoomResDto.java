@@ -14,12 +14,12 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 @Slf4j
 public class ChatRoomResDto {
-    private String roomId;
-    private String name;
-    private LocalDateTime regDate;
+    private String roomId; // 채팅방 이름
+    private String name; // 이름
+    private LocalDateTime regDate; // 보낸 현재 시간
 
     @JsonIgnore // 이 어노테이션으로 WebSocketSession의 직렬화를 방지
-    private Set<WebSocketSession> sessions;
+    private Set<WebSocketSession> sessions; // 채팅방에 연결된 websocket 세션들을 저장하는 set
     // 세션 수가 0인지 확인하는 메서드
     public boolean isSessionEmpty() {
         return this.sessions.size() == 0;

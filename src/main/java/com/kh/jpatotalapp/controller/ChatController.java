@@ -19,9 +19,10 @@ import static com.kh.jpatotalapp.utils.Common.CORS_ORIGIN;
 public class ChatController {
     private final ChatService chatService;
     @PostMapping("/new")
-    public ResponseEntity<String> createRoom(@RequestBody ChatRoomReqDto chatRoomDto) {
+    // 채팅방 새로 만들기
+    public ResponseEntity<String> createRoom(@RequestBody ChatRoomReqDto chatRoomDto) { // RequestBody 요청부문
         log.warn("chatRoomDto : {}", chatRoomDto);
-        ChatRoomResDto room = chatService.createRoom(chatRoomDto.getName());
+        ChatRoomResDto room = chatService.createRoom(chatRoomDto.getName()); // ReponseBody 반응부분
         System.out.println(room.getRoomId());
         return new ResponseEntity<>(room.getRoomId(), HttpStatus.OK);
     }

@@ -72,8 +72,8 @@ public class MemberController {
     @GetMapping("/check")
     public ResponseEntity<Boolean> isMember(@RequestParam String email) {
         log.info("email: {}", email);
-        boolean isReg = memberService.deleteMember(email);
-        return ResponseEntity.ok(isReg);
+        boolean isReg = memberService.isMember(email);
+        return ResponseEntity.ok(!isReg);
     }
     // 회원 삭제
     @DeleteMapping("/del/{email}")

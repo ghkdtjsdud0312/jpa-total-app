@@ -30,4 +30,10 @@ public class ChatController {
     public List<ChatRoomResDto> findAllRoom() {
         return chatService.findAllRoom();
     }
+
+    // 방 정보 가져오기
+    @GetMapping("/room/{roomId}")
+    public ChatRoomResDto findRoomById(@PathVariable String roomId) {
+        return chatService.findRoomById(roomId);
+    }
 }

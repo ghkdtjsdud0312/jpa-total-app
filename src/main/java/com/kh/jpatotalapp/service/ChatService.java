@@ -1,6 +1,7 @@
 package com.kh.jpatotalapp.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.jpatotalapp.dto.ChatMessageDto;
 import com.kh.jpatotalapp.dto.ChatRoomResDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +53,43 @@ public class ChatService {
             }
         }
     }
+    public void addSessionAndHandleEnter(String roomId, WebSocketSession session, ChatMessageDto chatMessage) {
+        ChatRoomResDto room = findRoomById(roomId);
+        if (room != null) {
+            room.getSessions().add(session);
+            if (chatMessage.getSender() != null) {
+                chatMessage.setMessage(chatMessage.getSender() + "님이 입장했습니다.");
+                sendMessageToAll(roomId, chatMessage);
+            }
+            log.debug("New session added: " + session);
+        }
+
+    }
+    public void removeSessionAndHandleExit(String roomId,WebSocketSession session, ChatMessageDto chatMessage) {
+        ChatRoomResDto room = findRoomById(roomId);
+        if (room != null) {
+            room.getSessions().remove(session);
+            if (chatMessage.getSender() != null) {
+                chatMessage.setMessage(chatMessage.getSender() + "님이 퇴장했습니다.");
+                sendMessageToAll(roomId, chatMessage);
+            }
+            log.debug("Session removed:" + session);
+            if (room.isSessionEmpty()) {
+                removeRoom(roomId);
+            }
+        }
+    }
+    public void sendMessageToAll(String roomId, ChatMessageDto message) {
+            ChatRoomResDto room = findRoomById(roomId);
+            if(room != null) {
+                for(WebSocketSession session : room.getSessions()) {
+                    sendMessage(session,message);
+                }
+            }
+            }
+
+
+
     // 특정 WebSocketSession에 메시지 전송
     public <T> void sendMessage(WebSocketSession session, T message) {
         try {

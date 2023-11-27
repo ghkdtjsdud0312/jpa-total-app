@@ -34,17 +34,8 @@ public class AuthService {
         return MemberResDto.of(memberRepository.save(member));
     }
     public TokenDto login(MemberReqDto requestDto) {
-//        try {
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
-
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
-
         return tokenProvider.generateTokenDto(authentication);
-//        } catch (Exception e) {
-//            log.error("Login error: ", e);
-//            throw e;
-//        }
     }
-
-
 }

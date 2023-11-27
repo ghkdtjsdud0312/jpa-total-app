@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @RequiredArgsConstructor
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity // 스프링 시큐리티를 활성화 하고 웹 보안 설정을 구성하는 데 사용
 @Component
 public class WebSecurityConfig implements WebMvcConfigurer {
 

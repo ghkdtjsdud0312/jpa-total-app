@@ -6,6 +6,7 @@ import com.kh.jpatotalapp.entity.Member;
 import com.kh.jpatotalapp.repository.CategoryRepository;
 import com.kh.jpatotalapp.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 
@@ -56,15 +57,12 @@ public class CategoryService {
     // 카테고리 삭제
     public boolean deleteCategory(Long id) {
         try {
-            Category category = categoryRepository.findById(id).orElseThrow(
-                    () -> new RuntimeException("해당 카테고리가 존재하지 않습니다.")
-            );
-            categoryRepository.delete(category);
-            return true;
-        } catch (Exception e) {
+            categoryRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             return false;
         }
+        return true;
     }
     // 카테고리 목록 조회
     public List<CategoryDto> getCategoryList() {

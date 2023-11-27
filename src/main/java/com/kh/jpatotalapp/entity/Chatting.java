@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-@Table(name = "chat")
+@Table(name = "chatting")
 @NoArgsConstructor
-        public class Chat {
+        public class Chatting {
             @Id
             @GeneratedValue(strategy = GenerationType.AUTO)
             private String email;

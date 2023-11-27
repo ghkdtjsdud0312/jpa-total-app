@@ -22,56 +22,60 @@ public class ChatService {
     private Map<String, ChatRoomResDto> chatRooms;
 
     @PostConstruct // 의존성 주입 이후 초기화를 수행하는 메소드, 주로 초기화 로직에서 사용
-    private void init() {
-        chatRooms = new LinkedHashMap<>(); // 삽입순서를 유지하는 해시맵
+    private void init() { // 채팅방 정보를 담을 맵을 초기화
+
+        chatRooms = new LinkedHashMap<>(); // 삽입순서를 유지하는 해시맵, 채팅방 정보를 담을 맵
     }
-    public List<ChatRoomResDto> findAllRoom() {
+    public List<ChatRoomResDto> findAllRoom() { // 채팅방 리스트 반환
+
         return new ArrayList<>(chatRooms.values());
     }
     public ChatRoomResDto findRoomById(String roomId) {
+
         return chatRooms.get(roomId);
     }
 
     // 방 개설하기
     public ChatRoomResDto createRoom(String name) {
         String randomId = UUID.randomUUID().toString();
-        log.info("UUID : " + randomId);
-        ChatRoomResDto chatRoom = ChatRoomResDto.builder()
+        log.info("UUID : " + randomId); // "UUID : " 랜덤으로 유효 아이디- 다른 식별자로도 사용 가능
+        ChatRoomResDto chatRoom = ChatRoomResDto.builder() // 채팅방 생성
                 .roomId(randomId)
                 .name(name)
                 .regDate(LocalDateTime.now())
                 .build();
-        chatRooms.put(randomId, chatRoom);
+        chatRooms.put(randomId, chatRoom); // 방 생성, 키를 UUID로 하고 방 정보를 값으로 저장
         return chatRoom;
     }
     // 주어진 ID를 가진 채팅방을 chatRooms에서 제거합니다. 방에 세션이 없는 경우에만 제거합니다.
-    public void removeRoom(String roomId) {
-        ChatRoomResDto room = chatRooms.get(roomId);
-        if (room != null) {
-            if (room.isSessionEmpty()) {
-                chatRooms.remove(roomId);
+    public void removeRoom(String roomId) { // 방 삭제
+        ChatRoomResDto room = chatRooms.get(roomId); // 방 정보 가져오기
+        if (room != null) { // 방이 존재하면
+            if (room.isSessionEmpty()) { // 방에 세션이 없으면
+                chatRooms.remove(roomId); // 방 삭제
             }
         }
     }
+    // 채팅방에 입장한 세션 추가
     public void addSessionAndHandleEnter(String roomId, WebSocketSession session, ChatMessageDto chatMessage) {
         ChatRoomResDto room = findRoomById(roomId);
         if (room != null) {
-            room.getSessions().add(session);
-            if (chatMessage.getSender() != null) {
+            room.getSessions().add(session); // 채팅방에 입짱한 세션 추가
+            if (chatMessage.getSender() != null) { // 채팅방에 입장 사용자가 있다면
                 chatMessage.setMessage(chatMessage.getSender() + "님이 입장했습니다.");
-                sendMessageToAll(roomId, chatMessage);
+                sendMessageToAll(roomId, chatMessage); // 채팅방에 입장 메세지 전송
             }
             log.debug("New session added: " + session);
         }
-
     }
+    // 채팅방에서 퇴장한 세션 제거
     public void removeSessionAndHandleExit(String roomId,WebSocketSession session, ChatMessageDto chatMessage) {
-        ChatRoomResDto room = findRoomById(roomId);
+        ChatRoomResDto room = findRoomById(roomId); // 채팅방 정보 가져오기
         if (room != null) {
-            room.getSessions().remove(session);
-            if (chatMessage.getSender() != null) {
+            room.getSessions().remove(session); // 채팅방에서 퇴장한 세션 제거
+            if (chatMessage.getSender() != null) { // 채팅방에서 퇴장한 사용자가 있다면
                 chatMessage.setMessage(chatMessage.getSender() + "님이 퇴장했습니다.");
-                sendMessageToAll(roomId, chatMessage);
+                sendMessageToAll(roomId, chatMessage); // 채팅방에 퇴장 메세지 전송
             }
             log.debug("Session removed:" + session);
             if (room.isSessionEmpty()) {
@@ -87,9 +91,6 @@ public class ChatService {
                 }
             }
             }
-
-
-
     // 특정 WebSocketSession에 메시지 전송
     public <T> void sendMessage(WebSocketSession session, T message) {
         try {

@@ -108,6 +108,17 @@ public class BoardService {
         }
         return boardDtos;
     }
+    // 회원 이메일로 게시글 조회
+    public List<BoardDto> getBoardListByEmail(String email) {
+        List<Board> boards = boardRespository.findByMemberEmail(email);
+        List<BoardDto> boardDtos = new ArrayList<>();
+        for(Board board : boards) {
+            boardDtos.add(convertEntityToDto(board));
+        }
+        return boardDtos;
+    }
+
+
     // 게시글 엔티티를 DTO로 변환
     private BoardDto convertEntityToDto(Board board) {
         BoardDto boardDto = new BoardDto();

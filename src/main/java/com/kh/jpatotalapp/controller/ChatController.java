@@ -22,6 +22,8 @@ public class ChatController {
     // 채팅방 새로 만들기
     public ResponseEntity<String> createRoom(@RequestBody ChatRoomReqDto chatRoomDto) { // RequestBody 요청부문
         log.warn("chatRoomDto : {}", chatRoomDto);
+        log.warn("chatRoomDto : {}", chatRoomDto.getName());
+        log.warn("chatRoomDto : {}", chatRoomDto.getEmail());
         ChatRoomResDto room = chatService.createRoom(chatRoomDto.getName()); // ReponseBody 반응부분
         System.out.println(room.getRoomId());
         return new ResponseEntity<>(room.getRoomId(), HttpStatus.OK);
@@ -34,6 +36,7 @@ public class ChatController {
     // 방 정보 가져오기
     @GetMapping("/room/{roomId}")
     public ChatRoomResDto findRoomById(@PathVariable String roomId) {
+
         return chatService.findRoomById(roomId);
     }
 }

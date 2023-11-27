@@ -18,6 +18,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) { // webSocketHandler를 "ws/chat" 엔드포인트에 등록하고, 모든 출처에서의 연결을 허용하도록 설정되어 잇음(setAllowedOrigins("*")).
-        registry.addHandler(webSocketHandler, "ws/chat").setAllowedOrigins("*");
+        registry.addHandler(webSocketHandler, "ws/chat").setAllowedOrigins("*"); // "ws/chat" 채팅방 경로 지나감
     }
 }

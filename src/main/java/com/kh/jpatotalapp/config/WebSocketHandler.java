@@ -19,11 +19,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Component
 // WebSocketHandler를 상속 받아서 WebSocketHandler를 구현
-public class WebSocketHandler extends TextWebSocketHandler {
+public class WebSocketHandler extends TextWebSocketHandler { // TextWebSocketHandler 또는 BinaryWebSocketHandler 라는 스프링이 제공하는 기본 클래스를 상속하여 구현하면 됨
 
     private final ObjectMapper objectMapper; //Json 문자열로 변환하기 위한 객체
     private final ChatService chatService; // 채팅방 관련 비지니스 로직을 처리할 서비스
     private final Map<WebSocketSession, String> sessionRoomIdMap = new ConcurrentHashMap<>(); // 세션과 채팅방 ID를 매핑할 맵
+    // WebSocketSession : 웹소켓이 연결될 때 생기는 연결 정보를 담고 있는 객체,핸들러에서 웹소켓 통신에 대한 처리를 하기 위해 이 세션들을 컬렉션으로 담아 관리하는 경우가 많음.
+    // set<WebSocketSession> : 커넥션이 맺어질 때 컬렉션에 웹소켓 세션을 추가하고 커넥션이 끊어질 때 제거함, 연결되어있는 모든 클라이언트에게 메세지를 보낼 수 있음
     @Override
     // 클라이언트가 서버로 연결을 시도할 때 호출되는 메서드
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {

@@ -13,7 +13,7 @@ import java.util.List;
 import static com.kh.jpatotalapp.utils.Common.CORS_ORIGIN;
 
 @Slf4j
-@CrossOrigin(origins = CORS_ORIGIN)
+//@CrossOrigin(origins = CORS_ORIGIN)
 @RestController
 @RequestMapping("/api/category")
 @RequiredArgsConstructor

@@ -22,6 +22,7 @@ public class ChatRoomResDto {
     private Set<WebSocketSession> sessions; // 채팅방에 연결된 websocket 세션들을 저장하는 set
     // 세션 수가 0인지 확인하는 메서드
     public boolean isSessionEmpty() {
+
         return this.sessions.size() == 0;
     }
 

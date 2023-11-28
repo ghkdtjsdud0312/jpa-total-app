@@ -27,8 +27,8 @@ public class MemberService {
         return memberRepository.existsByEmail(email);
     }
     // 획원 상세 조회
-    public MemberResDto getMemberDetail(String email) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(
+    public MemberResDto getMemberDetail(Long id) {
+        Member member = memberRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("해당 회원이 존재하지 않습니다.")
         );
         return convertEntityToDto(member);

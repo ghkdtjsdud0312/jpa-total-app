@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+// 기본적으로 스프링 시큐리티에 필요한 설정 → jwt 적용 및 authentication 필요한 API 주소 설정
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티를 활성화 하고 웹 보안 설정을 구성하는 데 사용
@@ -32,7 +33,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     @Bean // SecurityFilterChain 객체를 Bean으로 등록
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-
                 .httpBasic()
                 .and()
                 .csrf().disable()

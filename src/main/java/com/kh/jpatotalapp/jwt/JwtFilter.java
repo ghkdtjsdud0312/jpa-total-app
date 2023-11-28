@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 // 유효성 검사
+// request 앞단에 붙이는 필터. http request에서 토큰을 받아와 정상 토큰일 경우 security context에 저장
 @Slf4j
 @RequiredArgsConstructor // final이 붙은 필드를 인자 값으로 하는 생성자를 만들어줌
 // OncePerRequestFilter : Http Request의 한번의 요청에 대해 한 번만 실행하는 Filter(인터페이스를 구현하기 때문에 요청 받을 때 단 한번만 실행)

@@ -27,9 +27,11 @@ public class AuthService {
     private final TokenProvider tokenProvider;
 
     public MemberResDto signup(MemberReqDto requestDto) {
+
         if (memberRepository.existsByEmail(requestDto.getEmail())) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다");
         }
+
         Member member = requestDto.toEntity(passwordEncoder);
         return MemberResDto.of(memberRepository.save(member));
     }

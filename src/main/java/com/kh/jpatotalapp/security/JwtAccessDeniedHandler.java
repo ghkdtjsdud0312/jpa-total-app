@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// 접근 권한 없을 때 403 에러
 @Component // Bean으로 등록
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 

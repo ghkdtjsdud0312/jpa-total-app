@@ -73,7 +73,7 @@ public class TokenProvider {
                 .refreshToken(refreshToken)
                 .refreshTokenExpiresIn(refreshTokenExpiresIn.getTime())
                 .build();
-    }
+    };
     public Authentication getAuthentication(String accessToken) {
         // 토큰 복호화
         Claims claims = parseClaims(accessToken);
@@ -119,5 +119,9 @@ public class TokenProvider {
         } catch (ExpiredJwtException e) {
             return e.getClaims();
         }
+    }
+    // access 토큰 재발급
+    public String generateAccessToken(Authentication authentication) {
+        return  generateTokenDto(authentication).getAccessToken();
     }
 }

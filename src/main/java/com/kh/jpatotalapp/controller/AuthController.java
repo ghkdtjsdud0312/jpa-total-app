@@ -36,6 +36,7 @@ public class AuthController {  // 프론트와 백 연결해서 받아옴, 프�
     // 회원 존재 여부 확인
     @GetMapping("/exists/{email}")
     public ResponseEntity<Boolean> memberExists(@PathVariable String email) {
+        log.info("email: {}", email);
         boolean isTrue = memberService.isMember(email);
         return ResponseEntity.ok(!isTrue);
     }

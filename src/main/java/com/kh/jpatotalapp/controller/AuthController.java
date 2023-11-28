@@ -6,10 +6,13 @@ import com.kh.jpatotalapp.dto.TokenDto;
 import com.kh.jpatotalapp.service.AuthService;
 import com.kh.jpatotalapp.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.TreeSet;
 
+@Slf4j
 @RestController // controller + ResponseBody -> Json 형태로 객체 데이터 반환 하는 것 /데이터를 응답으로 제공하는 REST API를 개발할 때 주로 사용하며 객체를 ResponseEntity로 감싸서 반환
 @RequestMapping("/auth") // 특정 url로 요청(request)을 보내면 Controller에서 어떠한 방식으로 처리할지 정의함
 @RequiredArgsConstructor // final이 붙거나 @NotNull이 붙은 필드의 생성자를 자동 생성해주는 롬복 어노테이션
@@ -35,5 +38,9 @@ public class AuthController {  // 프론트와 백 연결해서 받아옴, 프�
     public ResponseEntity<Boolean> memberExists(@PathVariable String email) {
         boolean isTrue = memberService.isMember(email);
         return ResponseEntity.ok(!isTrue);
+    }
+    @PostMapping("/refresh")
+    public ResponseEntity<TokenDto> newToken(@RequestBody String refreshToken) {
+        return ResponseEntity.ok(authService.refreshAccessToken(refreshToken));
     }
 }

@@ -16,7 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
-//@Slf4j
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -35,9 +36,22 @@ public class AuthService {
         Member member = requestDto.toEntity(passwordEncoder);
         return MemberResDto.of(memberRepository.save(member));
     }
+
     public TokenDto login(MemberReqDto requestDto) {
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
         return tokenProvider.generateTokenDto(authentication);
     }
-}
+
+    public TokenDto refreshAccessToken(String refreshToken) {
+        //refreshToken 검증
+        try {
+            if (tokenProvider.validateToken(refreshToken)) {
+                return tokenProvider.generateTokenDto(tokenProvider.getAuthentication(refreshToken));
+                }
+            } catch(RuntimeException e) {
+            log.error("토큰 유효성 검증 중 예외 발생: {}", e.getMessage());
+            }
+            return null;
+        }
+    }

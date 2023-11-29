@@ -1,6 +1,5 @@
 package com.kh.jpatotalapp.service;
 
-import com.kh.jpatotalapp.dto.MemberDto;
 import com.kh.jpatotalapp.dto.MemberReqDto;
 import com.kh.jpatotalapp.dto.MemberResDto;
 import com.kh.jpatotalapp.entity.Member;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -26,7 +24,7 @@ public class MemberService {
 
         return memberRepository.existsByEmail(email);
     }
-    // 획원 상세 조회
+    // 회원 상세 조회
     public MemberResDto getMemberDetail(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("해당 회원이 존재하지 않습니다.")

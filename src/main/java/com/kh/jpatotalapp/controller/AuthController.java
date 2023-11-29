@@ -40,8 +40,11 @@ public class AuthController {  // 프론트와 백 연결해서 받아옴, 프�
         boolean isTrue = memberService.isMember(email);
         return ResponseEntity.ok(!isTrue);
     }
+    // accessToken 재발급
+    // refreshToken은 accessToken 재발급하기 위해 필요
     @PostMapping("/refresh")
     public ResponseEntity<TokenDto> newToken(@RequestBody String refreshToken) {
+        log.info("refreshToken: {}", refreshToken);
         return ResponseEntity.ok(authService.refreshAccessToken(refreshToken));
     }
 }

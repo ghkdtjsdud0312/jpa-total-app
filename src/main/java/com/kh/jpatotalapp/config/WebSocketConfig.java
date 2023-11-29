@@ -1,5 +1,5 @@
 package com.kh.jpatotalapp.config;
-
+// 첫번째 작업 - 세션을 만들어 주는 곳
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.WebSocketHandler;

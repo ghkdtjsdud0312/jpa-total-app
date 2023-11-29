@@ -12,7 +12,7 @@ import java.util.List;
 import static com.kh.jpatotalapp.utils.Common.CORS_ORIGIN;
 
 @Slf4j
-// @CrossOrigin(origins = CORS_ORIGIN)
+@CrossOrigin(origins = CORS_ORIGIN)
 @RestController
 @RequestMapping("/api/comment")
 @RequiredArgsConstructor
@@ -32,7 +32,7 @@ public class CommentController {
         return ResponseEntity.ok(result);
     }
     // 댓글 삭제
-    @DeleteMapping("/delete/{commentId}")
+    @DeleteMapping("/delete")
     public ResponseEntity<Boolean> commentDelete(@PathVariable Long commentId) {
         boolean result = commentService.commentDelete(commentId);
         return ResponseEntity.ok(result);
@@ -45,8 +45,19 @@ public class CommentController {
         return ResponseEntity.ok(list);
     }
     // 댓글 목록 페이징
+    @GetMapping("/list/page")
+    public ResponseEntity<List<CommentDto>> commentList(@RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "20")int size) {
+        List<CommentDto> list = commentService.getCommentList(page,size);
+        return ResponseEntity.ok(list);
+    }
     // 댓글 상세 조회
-    // 댓글 검색
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<CommentDto> commentDetail(@PathVariable long id) {
+        CommentDto commentDto = commentService.getCommentDetail(id);
+        return ResponseEntity.ok(commentDto);
+    }
+    // 댓글 검색!!!!!! 다시보기!!!!!!
     @GetMapping("/search")
     public ResponseEntity<List<CommentDto>> commentSearch(@RequestParam String keyword) {
         List<CommentDto> list = commentService.getCommentList(keyword);

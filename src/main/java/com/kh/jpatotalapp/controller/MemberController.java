@@ -1,16 +1,12 @@
 package com.kh.jpatotalapp.controller;
-import com.kh.jpatotalapp.dto.MemberDto;
+
 import com.kh.jpatotalapp.dto.MemberReqDto;
 import com.kh.jpatotalapp.dto.MemberResDto;
-import com.kh.jpatotalapp.entity.Board;
-import com.kh.jpatotalapp.entity.Member;
-import com.kh.jpatotalapp.repository.MemberRepository;
 import com.kh.jpatotalapp.security.SecurityUtil;
 import com.kh.jpatotalapp.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

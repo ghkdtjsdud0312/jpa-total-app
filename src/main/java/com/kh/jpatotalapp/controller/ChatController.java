@@ -14,6 +14,7 @@ import static com.kh.jpatotalapp.utils.Common.CORS_ORIGIN;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = CORS_ORIGIN)
 @RequestMapping("/chat")
 public class ChatController {
     private final ChatService chatService;
@@ -23,16 +24,23 @@ public class ChatController {
         log.warn("chatRoomDto : {}", chatRoomDto);
         ChatRoomResDto room = chatService.createRoom(chatRoomDto.getName()); // ReponseBody 반응부분
         System.out.println(room.getRoomId());
-        return ResponseEntity.ok(room.getRoomId());
+        return new ResponseEntity<>(room.getRoomId(),HttpStatus.OK);
     }
     @GetMapping("/list")
-    public ResponseEntity<List<ChatRoomResDto>> findAllRoom() {
-        return ResponseEntity.ok(chatService.findAllRoom());
+    public List<ChatRoomResDto> findAllRoom() {
+
+        return chatService.findAllRoom();
+    }
+
+    @GetMapping("/chatroom/{roomId}")
+    public ResponseEntity<ChatRoomResDto> chatRoomInfo(@PathVariable String roomId) {
+        ChatRoomResDto room = chatService.findRoomById(roomId);
+        return ResponseEntity.ok(room);
     }
 
     // 방 정보 가져오기
     @GetMapping("/room/{roomId}")
-    public ResponseEntity<ChatRoomResDto> findRoomById(@PathVariable String roomId) {
-        return ResponseEntity.ok(chatService.findRoomById(roomId));
+    public ChatRoomResDto findRoomById(@PathVariable String roomId) {
+        return chatService.findRoomById(roomId);
     }
 }

@@ -67,5 +67,4 @@ public class MovieController {
         int pageCnt = movieService.getMoviePage(pageRequest);
         return ResponseEntity.ok(pageCnt);
     }
-
 }

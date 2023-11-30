@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kh.jpatotalapp.security.SecurityUtil.getCurrentMemberId;
+
 // 서비스 레이어, 내부에서 자바 로직을 처리함
  // controller에서 객체를 받아서 repository를 실행 후 결과 값을 전달(frontEnd -> controller -> service -> repository -> service -> controller)
 @Service // 스프링에게 해당 클래스가 Service Component이라고 알려 주는 것 / 작성한 클래스에 @Service 어노테이션을 달아주면 해당 클래스를 루트 컨테이너에 Bean 객체로 생성해줌
@@ -29,9 +31,13 @@ public class BoardService {
     public boolean saveBoard(BoardDto boardDto) {
         try{
             Board board = new Board();
-            Member member = memberRepository.findByEmail(boardDto.getEmail()).orElseThrow(
+            Long memberId = getCurrentMemberId();
+            Member member = memberRepository.findById(memberId).orElseThrow(
                     () -> new RuntimeException("해당 회원이 존재하지 않습니다.")
-                );
+            );
+//            Member member = memberRepository.findByEmail(boardDto.getEmail()).orElseThrow(
+//                    () -> new RuntimeException("해당 회원이 존재하지 않습니다.")
+//                );
             Category category = categoryRepository.findById(boardDto.getCategoryId()).orElseThrow(
                     () -> new RuntimeException("해당 카테고리가 존재하지 않습니다.")
             );

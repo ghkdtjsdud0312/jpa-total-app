@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kh.jpatotalapp.security.SecurityUtil.getCurrentMemberId;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -30,9 +32,13 @@ public class CommentService {
                     Board board = boardRespository.findById(commentDto.getBoardId()).orElseThrow(
                         () -> new RuntimeException("해당 게시글이 존재하지 않습니다.")
                 );
-                Member member = memberRepository.findByEmail(commentDto.getEmail()).orElseThrow(
+                Long memberId = getCurrentMemberId();
+                Member member = memberRepository.findById(memberId).orElseThrow(
                         () -> new RuntimeException("해당 회원이 존재하지 않습니다.")
                 );
+//                Member member = memberRepository.findByEmail(commentDto.getEmail()).orElseThrow(
+//                        () -> new RuntimeException("해당 회원이 존재하지 않습니다.")
+//                );
                 comment.setContent(commentDto.getContent());
                 comment.setMember(member);
                 comment.setBoard(board);
@@ -106,7 +112,7 @@ public class CommentService {
 
         }
         // 댓글 검색
-        public List<CommentDto> getCommentList(String keyword) {
+        public List<CommentDto> getCommentSearch(String keyword) {
             List<Comment> comments = commentRepository.findByContentContaining(keyword);
             List<CommentDto> commentDtos = new ArrayList<>();
             for(Comment comment : comments) {

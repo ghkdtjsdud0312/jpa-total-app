@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kh.jpatotalapp.security.SecurityUtil.getCurrentMemberId;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
@@ -23,6 +25,8 @@ public class CategoryService {
     public boolean saveCategory(CategoryDto categoryDto) {
         try {
             Category category = new Category();
+
+            Long memberId = getCurrentMemberId();
             Member member = memberRepository.findByEmail(categoryDto.getEmail()).orElseThrow(
                     () -> new RuntimeException("해당 회원이 존재하지 않습니다.")
             );
@@ -41,9 +45,13 @@ public class CategoryService {
             Category category = categoryRepository.findById(id).orElseThrow(
                     () -> new RuntimeException("해당 카테고리가 존재하지 않습니다.")
             );
-            Member member = memberRepository.findByEmail(categoryDto.getEmail()).orElseThrow(
+            Long memberId = getCurrentMemberId();
+            Member member = memberRepository.findById(memberId).orElseThrow(
                     () -> new RuntimeException("해당 회원이 존재하지 않습니다.")
             );
+//            Member member = memberRepository.findByEmail(categoryDto.getEmail()).orElseThrow(
+//                    () -> new RuntimeException("해당 회원이 존재하지 않습니다.")
+//            );
             category.setCategoryName(categoryDto.getCategoryName());
             category.setCategoryId(category.getCategoryId());
             category.setMember(member);

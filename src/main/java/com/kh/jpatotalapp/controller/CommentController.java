@@ -57,10 +57,10 @@ public class CommentController {
         CommentDto commentDto = commentService.getCommentDetail(id);
         return ResponseEntity.ok(commentDto);
     }
-    // 댓글 검색!!!!!! 다시보기!!!!!!
+    // 댓글 검색
     @GetMapping("/search")
     public ResponseEntity<List<CommentDto>> commentSearch(@RequestParam String keyword) {
-        List<CommentDto> list = commentService.getCommentList(keyword);
+        List<CommentDto> list = commentService.getCommentSearch(keyword);
         return ResponseEntity.ok(list);
     }
 }

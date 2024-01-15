@@ -22,7 +22,7 @@ public class SwaggerConfiguration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.kh.finalEx"))
+                .apis(RequestHandlerSelectors.basePackage("com.kh.jpatotalapp"))
                 .paths(PathSelectors.any())
                 .build();
     }
